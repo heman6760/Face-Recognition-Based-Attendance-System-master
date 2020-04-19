@@ -12,6 +12,7 @@ import time
 import tkinter.ttk as ttk
 import tkinter.font as font
 
+#root window
 window = tk.Tk()
 window.title("Face_Recogniser")
 
@@ -19,9 +20,9 @@ window.configure(background='#ECE6E5')
 
 window.geometry("1350x720")
 
+#heading label
 title = tk.Label(window, text="Face Recognition Based Attendance Management System" ,bg="green"  ,fg="white"  ,width=60  ,height=3,font=('times', 30, 'bold')) 
 title.place(x=0,y=10)
-
 
 lbl_id = tk.Label(window, text="Enter ID",width=20  ,height=2  ,fg="red"  ,bg="yellow" ,font=('times', 15, ' bold ') ) 
 lbl_id.place(x=300, y=200)
@@ -57,7 +58,7 @@ def clear2():
     res = ""
     txt_name.configure(text= res)       
 
- 
+ #function to crop and save images from video using haar cascade classifier
 def TakeImages():        
     Id=(txt_id.get())
     name=(txt_name.get())
@@ -98,7 +99,9 @@ def TakeImages():
         if(name.isalpha()):
             res = "Enter Numeric Id"
             txt_notification.configure(text= res)
-    
+ 
+
+#function to train LPBH recogniser   
 def TrainImages():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     harcascadePath = "haarcascade_frontalface_default.xml"
@@ -109,6 +112,8 @@ def TrainImages():
     res = "Image Trained"
     txt_notification.configure(text= res)
 
+
+#function to to fetch list of images along with their ids
 def getImagesAndLabels(path):
     #get the path of all the files in the folder
     imagePaths=[os.path.join(path,f) for f in os.listdir(path)] 
@@ -130,6 +135,8 @@ def getImagesAndLabels(path):
         Ids.append(Id)        
     return faces,Ids
 
+
+#function to detect faces
 def TrackImages():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     recognizer.read("TrainingImageLabel/Trainner.yml")
